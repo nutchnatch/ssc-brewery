@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-
 public class JpaUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;

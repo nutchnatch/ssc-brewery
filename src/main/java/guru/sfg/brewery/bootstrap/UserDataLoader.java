@@ -7,12 +7,14 @@ import guru.sfg.brewery.repositories.security.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
+//@EnableGlobalMethodSecurity(securedEnabled = true)
 public class UserDataLoader implements CommandLineRunner {
 
     private final AuthorityRepository authorityRepository;
@@ -27,9 +29,9 @@ public class UserDataLoader implements CommandLineRunner {
     }
 
     private void loadSecurityData() {
-        Authority admin = authorityRepository.save(Authority.builder().role("ADMIN").build());
-        Authority userRole = authorityRepository.save(Authority.builder().role("USE>R").build());
-        Authority customer = authorityRepository.save(Authority.builder().role("CUSTOMER").build());
+        Authority admin = authorityRepository.save(Authority.builder().role("ROLE_ADMIN").build());
+        Authority userRole = authorityRepository.save(Authority.builder().role("ROLE_USER").build());
+        Authority customer = authorityRepository.save(Authority.builder().role("ROLE_CUSTOMER").build());
 
         userRepository.save(User.builder()
                 .username("spring")
