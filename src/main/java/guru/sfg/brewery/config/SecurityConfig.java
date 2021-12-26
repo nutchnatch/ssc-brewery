@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.LdapShaPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
+import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
@@ -34,6 +35,15 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 //@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    /**
+     * Used with Spring data JPA SPel
+     * @return
+     */
+    @Bean
+    public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
+        return new SecurityEvaluationContextExtension();
+    }
 
     public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
         RestHeaderAuthFilter filter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/api/**"));
@@ -70,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests(authorize -> {
                 authorize
                         .antMatchers("/h2-console/**").permitAll() // do not use in production
-                        .antMatchers("/", "/webjars/**", "/resources/**").permitAll();
+                        .antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll();
 //                        .antMatchers(HttpMethod.GET, "/api/v1/beer/**")
 //                            .hasAnyRole("ADMIN", "CUSTOMER", "USER")
 //                        .mvcMatchers(HttpMethod.DELETE, "/api/v1/beer/**").hasRole("ADMIN")
