@@ -8,5 +8,4 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 @PreAuthorize("hasAuthority('beer.read')")
 public @interface BeerReadPermission {
-
 }
